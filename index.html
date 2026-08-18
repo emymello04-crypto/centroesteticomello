@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+<<<<<<< HEAD
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -330,4 +331,1296 @@ footer{
 </a>
 
 </body>
+=======
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mello Estética Avançada | Beleza & Bem-estar</title>
+
+    <meta
+        name="description"
+        content="Mello Estética Avançada - tratamentos estéticos, cuidados com a pele e bem-estar."
+    >
+
+    <style>
+
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #ffffff;
+            color: #26343a;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --azul: #9DD9EC;
+            --azul-claro: #EAF8FC;
+            --azul-medio: #68BBD7;
+            --azul-escuro: #244B5A;
+            --dourado: #C9A227;
+            --dourado-claro: #E5C76B;
+            --branco: #ffffff;
+            --cinza: #66757C;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+
+            padding: 18px 7%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(15px);
+
+            border-bottom: 1px solid rgba(201, 162, 39, 0.15);
+
+            z-index: 1000;
+        }
+
+        .logo {
+            color: var(--dourado);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+        }
+
+        .logo span {
+            display: block;
+
+            color: var(--azul-escuro);
+
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            font-weight: 500;
+
+            margin-top: -3px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        nav a {
+            position: relative;
+
+            color: #34474f;
+
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+
+            transition: 0.3s;
+        }
+
+        nav a::after {
+            content: "";
+
+            position: absolute;
+            left: 0;
+            bottom: -7px;
+
+            width: 0;
+            height: 2px;
+
+            background: var(--dourado);
+
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--dourado);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(20, 43, 51, 0.78),
+                    rgba(20, 43, 51, 0.35)
+                ),
+                url("images/fachada-mello.png");
+
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            align-items: center;
+
+            padding: 120px 8% 80px;
+
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+
+            position: absolute;
+            bottom: 0;
+            left: 0;
+
+            width: 100%;
+            height: 120px;
+
+            background:
+                linear-gradient(
+                    transparent,
+                    #ffffff
+                );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+
+            max-width: 650px;
+
+            animation: aparecer 1.2s ease;
+        }
+
+        .tag {
+            display: inline-block;
+
+            color: var(--dourado-claro);
+
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            color: #ffffff;
+
+            font-family: Georgia, serif;
+
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            line-height: 1.05;
+
+            font-weight: 500;
+
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: var(--dourado-claro);
+        }
+
+        .hero p {
+            color: #f2f8fa;
+
+            font-size: 1.15rem;
+            line-height: 1.8;
+
+            max-width: 570px;
+
+            margin-bottom: 35px;
+        }
+
+        /* =========================
+           BOTÃO PREMIUM
+        ========================= */
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 15px 30px;
+
+            border-radius: 50px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--dourado),
+                    var(--dourado-claro)
+                );
+
+            color: #ffffff;
+
+            text-decoration: none;
+
+            font-weight: 600;
+
+            box-shadow:
+                0 10px 30px rgba(201, 162, 39, 0.25);
+
+            transition: 0.35s;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 15px 35px rgba(201, 162, 39, 0.35);
+        }
+
+        .btn-outline {
+            margin-left: 12px;
+
+            background: rgba(255,255,255,0.08);
+
+            border: 1px solid rgba(255,255,255,0.6);
+
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background: #ffffff;
+            color: var(--azul-escuro);
+        }
+
+        /* =========================
+           SEÇÕES
+        ========================= */
+
+        section {
+            padding: 100px 8%;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+
+            margin: 0 auto 60px;
+        }
+
+        .mini-title {
+            color: var(--dourado);
+
+            text-transform: uppercase;
+
+            letter-spacing: 3px;
+
+            font-size: 0.75rem;
+
+            font-weight: 600;
+
+            margin-bottom: 12px;
+        }
+
+        .section-header h2 {
+            color: var(--azul-escuro);
+
+            font-family: Georgia, serif;
+
+            font-size: clamp(2rem, 4vw, 3rem);
+
+            font-weight: 500;
+
+            margin-bottom: 18px;
+        }
+
+        .section-header p {
+            color: var(--cinza);
+
+            line-height: 1.8;
+        }
+
+        /* =========================
+           SERVIÇOS
+        ========================= */
+
+        #servicos {
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffff,
+                    var(--azul-claro)
+                );
+        }
+
+        .servicos {
+            max-width: 1200px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(270px, 1fr));
+
+            gap: 25px;
+        }
+
+        .card {
+            position: relative;
+
+            background: rgba(255,255,255,0.9);
+
+            border: 1px solid rgba(104,187,215,0.18);
+
+            border-radius: 22px;
+
+            padding: 35px 30px;
+
+            text-align: center;
+
+            box-shadow:
+                0 10px 35px rgba(38, 75, 90, 0.07);
+
+            transition: 0.4s;
+
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 4px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--azul),
+                    var(--dourado)
+                );
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+
+            box-shadow:
+                0 20px 45px rgba(38, 75, 90, 0.13);
+        }
+
+        .icone {
+            width: 65px;
+            height: 65px;
+
+            margin: 0 auto 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: var(--azul-claro);
+
+            color: var(--dourado);
+
+            font-size: 1.6rem;
+        }
+
+        .card h3 {
+            color: var(--azul-escuro);
+
+            font-family: Georgia, serif;
+
+            font-size: 1.35rem;
+
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: var(--cinza);
+
+            line-height: 1.7;
+
+            font-size: 0.95rem;
+        }
+
+        /* =========================
+           SOBRE
+        ========================= */
+
+        .sobre {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            align-items: center;
+
+            gap: 70px;
+
+            max-width: 1250px;
+
+            margin: auto;
+        }
+
+        .sobre-img {
+            position: relative;
+        }
+
+        .sobre-img img {
+            width: 100%;
+
+            max-height: 500px;
+
+            object-fit: cover;
+
+            border-radius: 25px;
+
+            box-shadow:
+                20px 20px 0 var(--azul-claro),
+                0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .sobre-texto .mini-title {
+            display: block;
+        }
+
+        .sobre-texto h2 {
+            color: var(--azul-escuro);
+
+            font-family: Georgia, serif;
+
+            font-size: 2.8rem;
+
+            font-weight: 500;
+
+            margin-bottom: 25px;
+        }
+
+        .sobre-texto p {
+            color: var(--cinza);
+
+            line-height: 1.9;
+
+            margin-bottom: 18px;
+        }
+
+        .destaque {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-top: 30px;
+        }
+
+        .destaque div {
+            padding: 18px;
+
+            border-left: 2px solid var(--dourado);
+
+            background: var(--azul-claro);
+        }
+
+        .destaque strong {
+            display: block;
+
+            color: var(--azul-escuro);
+
+            font-size: 1.1rem;
+
+            margin-bottom: 5px;
+        }
+
+        .destaque span {
+            color: var(--cinza);
+
+            font-size: 0.8rem;
+        }
+
+        /* =========================
+           AGENDAMENTO
+        ========================= */
+
+        .agendamento {
+            position: relative;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-escuro),
+                    #35697B
+                );
+
+            text-align: center;
+
+            color: white;
+
+            overflow: hidden;
+        }
+
+        .agendamento::before {
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            border: 1px solid rgba(255,255,255,0.15);
+
+            border-radius: 50%;
+
+            top: -120px;
+            left: -100px;
+        }
+
+        .agendamento h2 {
+            position: relative;
+
+            font-family: Georgia, serif;
+
+            font-size: 2.8rem;
+
+            font-weight: 500;
+
+            margin-bottom: 15px;
+        }
+
+        .agendamento p {
+            position: relative;
+
+            max-width: 650px;
+
+            margin: 0 auto 30px;
+
+            color: #e8f6fa;
+
+            line-height: 1.7;
+        }
+
+        /* =========================
+           CONTATO
+        ========================= */
+
+        .contato {
+            background: #ffffff;
+
+            text-align: center;
+        }
+
+        .contato-info {
+            max-width: 800px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+        .contato-card {
+            padding: 30px;
+
+            border-radius: 20px;
+
+            background: var(--azul-claro);
+
+            border: 1px solid rgba(104,187,215,0.15);
+        }
+
+        .contato-card strong {
+            display: block;
+
+            color: var(--azul-escuro);
+
+            margin-bottom: 8px;
+        }
+
+        .contato-card span {
+            color: var(--cinza);
+
+            font-size: 0.9rem;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #162F39;
+
+            color: #d8e9ee;
+
+            text-align: center;
+
+            padding: 30px 20px;
+
+            font-size: 0.9rem;
+        }
+
+        footer strong {
+            color: var(--dourado-claro);
+        }
+
+        /* =========================
+           WHATSAPP
+        ========================= */
+
+        .whatsapp {
+            position: fixed;
+
+            right: 25px;
+            bottom: 25px;
+
+            width: 65px;
+            height: 65px;
+
+            border-radius: 50%;
+
+            background: #25D366;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            z-index: 2000;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.2);
+
+            animation: pulsar 2.5s infinite;
+
+            transition: 0.3s;
+        }
+
+        .whatsapp:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp img {
+            width: 38px;
+            height: 38px;
+        }
+
+        /* =========================
+           ANIMAÇÕES
+        ========================= */
+
+        @keyframes aparecer {
+
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        @keyframes pulsar {
+
+            0% {
+                box-shadow:
+                    0 0 0 0 rgba(37,211,102,0.5);
+            }
+
+            70% {
+                box-shadow:
+                    0 0 0 15px rgba(37,211,102,0);
+            }
+
+            100% {
+                box-shadow:
+                    0 0 0 0 rgba(37,211,102,0);
+            }
+
+        }
+
+        /* =========================
+           RESPONSIVIDADE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            header {
+                padding: 15px 5%;
+            }
+
+            nav {
+                gap: 15px;
+            }
+
+            .sobre {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .contato-info {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            header {
+                position: relative;
+
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+
+                justify-content: center;
+            }
+
+            nav a {
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                min-height: 85vh;
+
+                padding: 80px 6%;
+            }
+
+            .hero h1 {
+                font-size: 2.7rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .btn {
+                padding: 13px 22px;
+
+                font-size: 0.9rem;
+            }
+
+            .btn-outline {
+                margin-left: 5px;
+            }
+
+            section {
+                padding: 75px 6%;
+            }
+
+            .destaque {
+                grid-template-columns: 1fr;
+            }
+
+            .sobre-texto h2 {
+                font-size: 2.3rem;
+            }
+
+            .agendamento h2 {
+                font-size: 2.2rem;
+            }
+
+            .whatsapp {
+                width: 58px;
+                height: 58px;
+
+                right: 15px;
+                bottom: 15px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
+
+        <div class="logo">
+            MELLO
+            <span>ESTÉTICA AVANÇADA</span>
+        </div>
+
+        <nav>
+
+            <a href="#inicio">Início</a>
+
+            <a href="#sobre">Sobre</a>
+
+            <a href="#servicos">Serviços</a>
+
+            <a href="#contato">Contato</a>
+
+            <a
+                href="agendamento.html"
+                class="btn"
+            >
+                Agendar
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <section
+        class="hero"
+        id="inicio"
+    >
+
+        <div class="hero-content">
+
+            <span class="tag">
+                Mello Estética Avançada
+            </span>
+
+            <h1>
+                Beleza que começa
+                <span>em você.</span>
+            </h1>
+
+            <p>
+                Tratamentos personalizados, tecnologia
+                e cuidado para valorizar sua beleza
+                natural com elegância e segurança.
+            </p>
+
+            <a
+                href="agendamento.html"
+                class="btn"
+            >
+                Agendar minha avaliação
+            </a>
+
+            <a
+                href="#servicos"
+                class="btn btn-outline"
+            >
+                Conhecer tratamentos
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SERVIÇOS
+    ========================= -->
+
+    <section id="servicos">
+
+        <div class="section-header">
+
+            <span class="mini-title">
+                Nossos tratamentos
+            </span>
+
+            <h2>
+                Cuidado em cada detalhe
+            </h2>
+
+            <p>
+                Procedimentos selecionados para oferecer
+                uma experiência completa de beleza,
+                cuidado e bem-estar.
+            </p>
+
+        </div>
+
+
+        <div class="servicos">
+
+
+            <div class="card">
+
+                <div class="icone">
+                    ✨
+                </div>
+
+                <h3>
+                    Limpeza de Pele
+                </h3>
+
+                <p>
+                    Cuidados para renovação,
+                    limpeza e aparência saudável
+                    da pele.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icone">
+                    ✦
+                </div>
+
+                <h3>
+                    Botox
+                </h3>
+
+                <p>
+                    Procedimentos faciais com
+                    foco em resultados naturais
+                    e harmônicos.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icone">
+                    ◇
+                </div>
+
+                <h3>
+                    Preenchimento
+                </h3>
+
+                <p>
+                    Harmonização facial planejada
+                    de acordo com as características
+                    individuais.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icone">
+                    ♡
+                </div>
+
+                <h3>
+                    Drenagem Linfática
+                </h3>
+
+                <p>
+                    Uma experiência de relaxamento,
+                    cuidado e bem-estar.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icone">
+                    ✧
+                </div>
+
+                <h3>
+                    Depilação a Laser
+                </h3>
+
+                <p>
+                    Tecnologia para redução
+                    duradoura dos pelos.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="icone">
+                    ◎
+                </div>
+
+                <h3>
+                    Harmonização Corporal
+                </h3>
+
+                <p>
+                    Procedimentos voltados ao
+                    cuidado e valorização do
+                    contorno corporal.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SOBRE
+    ========================= -->
+
+    <section id="sobre">
+
+        <div class="sobre">
+
+
+            <div class="sobre-img">
+
+                <img
+                    src="c:\Users\emilly cristina\Downloads\ChatGPT Image 18 de ago. de 2026, 08_44_00.png"
+                    alt="Fachada da Mello Estética Avançada"
+                >
+
+            </div>
+
+
+            <div class="sobre-texto">
+
+                <span class="mini-title">
+                    Sobre a Mello
+                </span>
+
+                <h2>
+                    Um espaço pensado
+                    para você.
+                </h2>
+
+                <p>
+                    A Mello Estética Avançada nasceu
+                    com o propósito de oferecer uma
+                    experiência diferenciada em
+                    cuidados estéticos.
+                </p>
+
+                <p>
+                    Unimos tecnologia, atendimento
+                    humanizado e uma atmosfera
+                    acolhedora para que cada cliente
+                    se sinta especial.
+                </p>
+
+
+                <div class="destaque">
+
+                    <div>
+                        <strong>
+                            Cuidado
+                        </strong>
+
+                        <span>
+                            Atendimento humanizado
+                        </span>
+                    </div>
+
+
+                    <div>
+                        <strong>
+                            Tecnologia
+                        </strong>
+
+                        <span>
+                            Procedimentos modernos
+                        </span>
+                    </div>
+
+
+                    <div>
+                        <strong>
+                            Excelência
+                        </strong>
+
+                        <span>
+                            Experiência diferenciada
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         AGENDAMENTO
+    ========================= -->
+
+    <section class="agendamento">
+
+        <h2>
+            Seu momento começa aqui.
+        </h2>
+
+        <p>
+            Escolha o melhor momento para sua avaliação
+            e dê o primeiro passo para cuidar de você.
+        </p>
+
+        <a
+            href="agendamento.html"
+            class="btn"
+        >
+            Fazer meu agendamento
+        </a>
+
+    </section>
+
+
+    <!-- =========================
+         CONTATO
+    ========================= -->
+
+    <section
+        class="contato"
+        id="contato"
+    >
+
+        <div class="section-header">
+
+            <span class="mini-title">
+                Entre em contato
+            </span>
+
+            <h2>
+                Estamos esperando por você
+            </h2>
+
+        </div>
+
+
+        <div class="contato-info">
+
+
+            <div class="contato-card">
+
+                <strong>
+                    📍 Localização
+                </strong>
+
+                <span>
+                    Goiânia - GO
+                </span>
+
+            </div>
+
+
+            <div class="contato-card">
+
+                <strong>
+                    📞 Telefone
+                </strong>
+
+                <span>
+                    (62) 99255-8042
+                </span>
+
+            </div>
+
+
+            <div class="contato-card">
+
+                <strong>
+                    ✉ E-mail
+                </strong>
+
+                <span>
+                    contato@melloestetica.com.br
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+        <br><br>
+
+        <a
+            href="https://wa.me/5562992558042?text=Olá!%20Gostaria%20de%20agendar%20uma%20avaliação%20na%20Mello%20Estética%20Avançada."
+            class="btn"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Falar pelo WhatsApp
+        </a>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        © 2026
+        <strong>
+            Mello Estética Avançada
+        </strong>
+
+        — Todos os direitos reservados.
+
+    </footer>
+
+
+    <!-- =========================
+         WHATSAPP
+    ========================= -->
+
+    <a
+        class="whatsapp"
+        href="https://wa.me/5562992558042?text=Olá!%20Gostaria%20de%20agendar%20uma%20avaliação%20na%20Mello%20Estética%20Avançada."
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="WhatsApp"
+    >
+
+        <img
+            src="https://cdn-icons-png.flaticon.com/512/733/733585.png"
+            alt="WhatsApp"
+        >
+
+    </a>
+
+
+</body>
+
+>>>>>>> fa2fb21 (atualização)
 </html>
