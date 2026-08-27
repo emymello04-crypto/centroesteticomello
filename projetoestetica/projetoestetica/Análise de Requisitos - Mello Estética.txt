@@ -1,0 +1,135 @@
+Análise de Requisitos — Mello Estética Avançada
+1. Objetivo do sistema
+
+O sistema será um site institucional para a Mello Estética Avançada, com o objetivo de:
+
+Apresentar a clínica.
+Mostrar os serviços oferecidos.
+Divulgar informações de contato.
+Permitir que o cliente entre em contato pelo WhatsApp.
+Permitir o acesso à página de agendamento.
+Apresentar a clínica de forma profissional e responsiva.
+2. Requisitos funcionais
+ID	Requisito										Prioridade
+RF01	O sistema deve apresentar o nome e a identidade visual da Mello Estética Avançada.	Alta
+RF02	O sistema deve possuir uma página inicial com uma seção de destaque (Hero).		Alta
+RF03	O sistema deve apresentar os serviços oferecidos pela clínica.				Alta
+RF04	O sistema deve apresentar Limpeza de Pele.						Média
+RF05	O sistema deve apresentar Botox.							Média
+RF06	O sistema deve apresentar Preenchimento.						Média
+RF07	O sistema deve apresentar Drenagem Linfática.						Média
+RF08	O sistema deve apresentar Depilação a Laser.						Alta
+RF09	O sistema deve apresentar Harmonização Corporal.					Alta
+RF10	O sistema deve possuir uma seção "Sobre a Clínica".					Alta
+RF11	O sistema deve apresentar imagens da clínica.						Média
+RF12	O sistema deve apresentar localização, telefone e e-mail.				Alta
+RF13	O sistema deve possuir botão para contato pelo WhatsApp.				Alta
+RF14	O sistema deve possuir botão/link para realizar agendamento.				Alta
+RF15	O sistema deve possuir menu de navegação entre as seções.				Alta
+RF16	O sistema deve possuir rodapé com informações da clínica.				Média
+RF17	O sistema deve permitir acesso à página agendamento.html.				Alta
+3. Requisitos não funcionais
+ID	Requisito							Prioridade
+RNF01	O site deve ser responsivo para computador, tablet e celular.	Alta
+RNF02	O site deve possuir uma interface profissional e elegante.	Alta
+RNF03	O site deve utilizar as cores da identidade visual da clínica.	Alta
+RNF04	O site deve possuir boa legibilidade e organização visual.	Alta
+RNF05	O site deve apresentar carregamento adequado das imagens.	Média
+RNF06	Os links externos devem abrir de forma segura quando necessário.Alta
+RNF07	O site deve funcionar nos principais navegadores modernos.	Alta
+RNF08	O código deve possuir estrutura organizada e fácil manutenção.	Média
+RNF09	O site deve utilizar HTML, CSS e, se necessário, JavaScript.	Média
+RNF10	O site deve possuir navegação simples e intuitiva.		Alta
+4. Requisitos de usabilidade
+
+O usuário deverá conseguir:
+
+Acessar o site.
+Visualizar os principais serviços.
+Conhecer a clínica.
+Encontrar telefone, localização e e-mail.
+Clicar no botão "Agendar".
+Clicar no botão "Falar pelo WhatsApp".
+Navegar rapidamente entre Início, Sobre, Serviços e Contato.
+5. Requisitos de segurança
+
+Como o site possui contato e futuramente pode receber dados de clientes, é importante considerar:
+
+Utilizar HTTPS quando o site estiver publicado.
+Não armazenar senhas ou dados sensíveis diretamente no HTML.
+Validar dados enviados pelo usuário na página de agendamento.
+Utilizar autenticação caso seja criado um painel administrativo.
+Proteger informações de clientes caso seja utilizado Firebase.
+Não deixar chaves, senhas ou credenciais administrativas expostas no código.
+Utilizar regras de segurança do Firebase adequadamente.
+6. Problemas encontrados no código atual
+
+Há alguns problemas que precisam ser corrigidos antes de publicar.
+
+1. Conflito do Git
+
+O código contém:
+
+<<<<<<< HEAD
+=======
+>>>>>>> fa2fb21
+
+Isso significa que o Git encontrou um conflito entre duas versões do arquivo. É necessário escolher uma versão ou combinar as duas e remover esses marcadores.
+
+2. Caminhos locais das imagens
+
+Você possui:
+
+c:\Users\emilly cristina\Downloads\...
+
+Esse caminho funciona somente no seu computador. Quando o site for publicado, a imagem não será encontrada.
+
+O ideal é utilizar algo como:
+
+<img src="images/fachada-mello.png">
+
+e colocar a imagem dentro da pasta images.
+
+3. Links do WhatsApp estão incorretos
+
+O código possui a URL dentro de outra URL formatada com []():
+
+href="[https://wa.me/...](https://wa.me/...)"
+
+Isso não funciona corretamente em HTML. Deve ser utilizado diretamente:
+
+href="https://wa.me/5562992558042"
+
+4. Existem elementos HTML duplicados
+
+O código possui mais de um .whatsapp e mais de uma definição de .card e .servicos. Isso pode causar comportamento inesperado.
+
+5. Navegação incompleta na primeira versão
+
+Existem links como:
+
+<a href="#">Sobre</a>
+
+O ideal é apontar para as seções:
+
+<a href="#sobre">Sobre</a>
+<a href="#servicos">Serviços</a>
+<a href="#contato">Contato</a>
+7. Resumo dos requisitos principais
+
+Funcionalidades principais:
+
+Site institucional → Serviços → Sobre a clínica → Contato → WhatsApp → Agendamento.
+
+Prioridades:
+
+🔴 Alta: Página inicial e identidade visual.
+🔴 Alta: Serviços.
+🔴 Alta: Contato e WhatsApp.
+🔴 Alta: Agendamento.
+🔴 Alta: Responsividade.
+🟡 Média: Imagens e animações.
+🟡 Média: Rodapé e informações adicionais.
+🟢 Futura: Firebase, login e painel administrativo.
+
+
