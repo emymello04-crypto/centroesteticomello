@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Login Administrativo | Mello Estética Avançada</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #EAF8FC,
+                    #FFFFFF
+                );
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 15px 50px rgba(36, 75, 90, 0.12);
+
+            text-align: center;
+        }
+
+        .logo {
+            color: #C9A227;
+
+            font-size: 2rem;
+            font-weight: bold;
+
+            letter-spacing: 3px;
+        }
+
+        .logo span {
+            display: block;
+
+            margin-top: 5px;
+
+            color: #244B5A;
+
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            margin-top: 30px;
+
+            color: #244B5A;
+
+            font-family: Georgia, serif;
+
+            font-size: 1.8rem;
+
+            font-weight: 500;
+        }
+
+        .descricao {
+            margin: 10px 0 25px;
+
+            color: #66757C;
+
+            font-size: 0.9rem;
+        }
+
+        label {
+            display: block;
+
+            margin: 15px 0 7px;
+
+            text-align: left;
+
+            color: #244B5A;
+
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #dce7ea;
+
+            border-radius: 10px;
+
+            outline: none;
+
+            font-size: 1rem;
+        }
+
+        input:focus {
+            border-color: #68BBD7;
+        }
+
+        .btn-login {
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #C9A227,
+                    #E5C76B
+                );
+
+            color: white;
+
+            font-size: 1rem;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-1px);
+        }
+
+        .mensagem {
+            min-height: 22px;
+
+            margin-top: 15px;
+
+            color: #C74646;
+
+            font-size: 0.9rem;
+        }
+
+        .voltar {
+            display: inline-block;
+
+            margin-top: 20px;
+
+            color: #66757C;
+
+            text-decoration: none;
+
+            font-size: 0.9rem;
+        }
+
+        .voltar:hover {
+            color: #C9A227;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <main class="login-container">
+
+        <section class="login-box">
+
+            <div class="logo">
+                MELLO
+
+                <span>
+                    ESTÉTICA AVANÇADA
+                </span>
+            </div>
+
+            <h1>
+                Área administrativa
+            </h1>
+
+            <p class="descricao">
+                Entre com sua conta de administrador.
+            </p>
+
+            <form id="loginForm">
+
+                <label for="email">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="E-mail do administrador"
+                    required
+                >
+
+                <label for="senha">
+                    Senha
+                </label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    placeholder="Sua senha"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="btn-login"
+                    id="btnLogin">
+
+                    Entrar
+
+                </button>
+
+                <p
+                    id="mensagem"
+                    class="mensagem">
+                </p>
+
+            </form>
+
+            <a
+                href="index.html"
+                class="voltar">
+
+                ← Voltar para a página inicial
+
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <script type="module" src="admin-login.js"></script>
+
+</body>
+
+</html>

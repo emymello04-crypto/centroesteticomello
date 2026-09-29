@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Administração | Mello Estética Avançada
+    </title>
+
+    <!-- CSS do painel -->
+    <link rel="stylesheet" href="admin.css">
+
+</head>
+
+<body>
+
+    <!-- =========================
+         CABEÇALHO
+    ========================== -->
+
+    <header class="topbar">
+
+        <a href="index.html" class="logo">
+
+            MELLO
+
+            <span>
+                ESTÉTICA AVANÇADA
+            </span>
+
+        </a>
+
+
+        <div class="admin-info">
+
+            <div>
+
+                <strong>
+                    Administrador
+                </strong>
+
+                <small>
+                    Painel administrativo
+                </small>
+
+            </div>
+
+
+            <div class="avatar">
+                AD
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         LAYOUT
+    ========================== -->
+
+    <div class="layout">
+
+
+        <!-- =========================
+             MENU LATERAL
+        ========================== -->
+
+        <aside class="sidebar">
+
+            <p class="menu-title">
+                MENU PRINCIPAL
+            </p>
+
+
+            <a href="#"
+               class="menu-item active">
+
+                👥 Usuários
+
+            </a>
+
+
+            <a href="agendamento.html"
+               class="menu-item">
+
+                📅 Agendamentos
+
+            </a>
+
+
+            <a href="index.html#servicos"
+               class="menu-item">
+
+                💆 Serviços
+
+            </a>
+
+
+            <a href="index.html"
+               class="menu-item">
+
+                🏠 Página inicial
+
+            </a>
+
+        </aside>
+
+
+
+        <!-- =========================
+             CONTEÚDO PRINCIPAL
+        ========================== -->
+
+        <main class="conteudo">
+
+
+            <!-- CABEÇALHO DA PÁGINA -->
+
+            <section class="page-header">
+
+                <div>
+
+                    <span class="subtitulo">
+                        PAINEL DE CONTROLE
+                    </span>
+
+
+                    <h1>
+                        Gerenciar usuários
+                    </h1>
+
+
+                    <p>
+                        Cadastre e gerencie os usuários da clínica.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn"
+                    id="btnNovo">
+
+                    + Novo usuário
+
+                </button>
+
+            </section>
+
+
+
+            <!-- =========================
+                 CARDS DE RESUMO
+            ========================== -->
+
+            <section class="resumo">
+
+
+                <!-- TOTAL -->
+
+                <article class="resumo-card">
+
+                    <div class="icone">
+                        👥
+                    </div>
+
+                    <p>
+                        Total de usuários
+                    </p>
+
+                    <strong id="totalUsuarios">
+                        0
+                    </strong>
+
+                </article>
+
+
+
+                <!-- ATIVOS -->
+
+                <article class="resumo-card">
+
+                    <div class="icone">
+                        🟢
+                    </div>
+
+                    <p>
+                        Usuários ativos
+                    </p>
+
+                    <strong id="usuariosAtivos">
+                        0
+                    </strong>
+
+                </article>
+
+
+
+                <!-- ADMINISTRADORES -->
+
+                <article class="resumo-card">
+
+                    <div class="icone">
+                        🔐
+                    </div>
+
+                    <p>
+                        Administradores
+                    </p>
+
+                    <strong id="totalAdmins">
+                        0
+                    </strong>
+
+                </article>
+
+            </section>
+
+
+
+            <!-- =========================
+                 TABELA DE USUÁRIOS
+            ========================== -->
+
+            <section class="painel">
+
+
+                <div class="painel-header">
+
+                    <div>
+
+                        <h2>
+                            Lista de usuários
+                        </h2>
+
+                        <p>
+                            Consulte os usuários cadastrados.
+                        </p>
+
+                    </div>
+
+
+                    <!-- BUSCA -->
+
+                    <input
+                        type="search"
+                        id="busca"
+                        placeholder="Buscar por nome ou e-mail..."
+                        autocomplete="off">
+
+                </div>
+
+
+
+                <!-- TABELA -->
+
+                <div class="tabela-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Usuário
+                                </th>
+
+                                <th>
+                                    E-mail
+                                </th>
+
+                                <th>
+                                    Perfil
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Ações
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="listaUsuarios">
+
+                            <!--
+                                Os usuários do Firebase
+                                serão carregados pelo admin.js
+                            -->
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- MENSAGEM QUANDO NÃO HÁ USUÁRIOS -->
+
+                <p
+                    id="mensagemVazia"
+                    class="vazio">
+
+                    Nenhum usuário cadastrado.
+
+                </p>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- =========================
+         MODAL DE USUÁRIO
+    ========================== -->
+
+    <div
+        class="modal"
+        id="modal">
+
+
+        <div class="modal-box">
+
+
+            <!-- CABEÇALHO DO MODAL -->
+
+            <div class="modal-header">
+
+                <h2 id="tituloModal">
+                    Novo usuário
+                </h2>
+
+
+                <button
+                    type="button"
+                    id="btnFechar"
+                    class="fechar"
+                    aria-label="Fechar">
+
+                    &times;
+
+                </button>
+
+            </div>
+
+
+
+            <!-- FORMULÁRIO -->
+
+            <form id="formUsuario">
+
+
+                <!-- ID DO USUÁRIO -->
+
+                <input
+                    type="hidden"
+                    id="usuarioId">
+
+
+
+                <!-- NOME -->
+
+                <label for="nome">
+                    Nome completo
+                </label>
+
+                <input
+                    type="text"
+                    id="nome"
+                    placeholder="Digite o nome completo"
+                    maxlength="100"
+                    required>
+
+
+
+                <!-- E-MAIL -->
+
+                <label for="email">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Digite o e-mail"
+                    maxlength="150"
+                    required>
+
+
+
+                <!-- PERFIL -->
+
+                <label for="perfil">
+                    Perfil
+                </label>
+
+                <select
+                    id="perfil"
+                    required>
+
+                    <option value="Cliente">
+                        Cliente
+                    </option>
+
+                    <option value="Funcionário">
+                        Funcionário
+                    </option>
+
+                    <option value="Administrador">
+                        Administrador
+                    </option>
+
+                </select>
+
+
+
+                <!-- STATUS -->
+
+                <label for="status">
+                    Status
+                </label>
+
+                <select
+                    id="status"
+                    required>
+
+                    <option value="Ativo">
+                        Ativo
+                    </option>
+
+                    <option value="Inativo">
+                        Inativo
+                    </option>
+
+                </select>
+
+
+
+                <!-- BOTÕES -->
+
+                <div class="modal-botoes">
+
+
+                    <button
+                        type="button"
+                        id="btnCancelar"
+                        class="btn-secundario">
+
+                        Cancelar
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn">
+
+                        Salvar usuário
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         RODAPÉ
+    ========================== -->
+
+    <footer>
+
+        © 2026 Mello Estética Avançada
+
+    </footer>
+
+
+
+    <!--
+        IMPORTANTE:
+
+        O admin.js precisa ser carregado
+        como módulo porque ele importa
+        o firebase-config.js.
+
+        NÃO use:
+        <script src="admin.js"></script>
+
+        Use:
+    -->
+
+    <script
+        type="module"
+        src="admin.js">
+    </script>
+
+</body>
+
+</html>
