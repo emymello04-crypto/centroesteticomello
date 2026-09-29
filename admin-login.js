@@ -7,11 +7,8 @@ import {
 
 import {
     collection,
-    query,
-    where,
     getDocs
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-
 
 const form = document.getElementById("loginForm");
 const emailInput = document.getElementById("email");
@@ -19,96 +16,91 @@ const senhaInput = document.getElementById("senha");
 const mensagem = document.getElementById("mensagem");
 const botao = document.getElementById("btnLogin");
 
-
 form.addEventListener("submit", async (event) => {
-
     event.preventDefault();
 
     const email = emailInput.value.trim();
     const senha = senhaInput.value;
 
-    mensagem.textContent = "";
-
     botao.disabled = true;
     botao.textContent = "Entrando...";
+    mensagem.textContent = "";
 
     try {
 
-        // Login no Firebase Authentication
-        const resultado =
-            await signInWithEmailAndPassword(
-                auth,
-                email,
-                senha
-            );
+        // 1. Verifica o login no Authentication
+        const resultado = await signInWithEmailAndPassword(
+            auth,
+            email,
+            senha
+        );
 
-        const usuario = resultado.user;
+        console.log("LOGIN AUTH OK:", resultado.user.email);
 
-        // Procura o usuário no Firestore
-        const usuariosRef =
-            collection(db, "usuarios");
+        // 2. Busca TODOS os usuários do Firestore
+        const usuariosRef = collection(db, "usuarios");
+        const snapshot = await getDocs(usuariosRef);
 
-        const consulta =
-            query(
-                usuariosRef,
-                where("email", "==", usuario.email)
-            );
+        console.log("Quantidade de documentos:", snapshot.size);
 
-        const resultadoFirestore =
-            await getDocs(consulta);
+        let encontrado = false;
 
-        if (resultadoFirestore.empty) {
-
-            await signOut(auth);
-
-            throw new Error(
-                "Usuário não encontrado no Firestore."
-            );
-        }
-
-        let administrador = false;
-
-        resultadoFirestore.forEach((documento) => {
+        snapshot.forEach((documento) => {
 
             const dados = documento.data();
 
             console.log(
-                "Usuário encontrado:",
+                "Documento:",
+                documento.id,
                 dados
             );
 
+            // Compara o e-mail sem diferenciar maiúsculas/minúsculas
             if (
-                dados.perfil === "Administrador" &&
-                dados.status === "Ativo"
+                dados.email &&
+                dados.email.trim().toLowerCase() ===
+                resultado.user.email.trim().toLowerCase()
             ) {
-                administrador = true;
+
+                encontrado = true;
+
+                console.log(
+                    "USUÁRIO ENCONTRADO:",
+                    dados
+                );
+
+                if (
+                    dados.perfil === "Administrador" &&
+                    dados.status === "Ativo"
+                ) {
+
+                    window.location.href = "admin.html";
+
+                } else {
+
+                    throw new Error(
+                        "O usuário existe, mas não é um administrador ativo."
+                    );
+                }
             }
         });
 
-        if (!administrador) {
+        if (!encontrado) {
 
             await signOut(auth);
 
             throw new Error(
-                "Este usuário não possui permissão de administrador."
+                "O login funcionou, mas nenhum documento com esse e-mail foi encontrado na coleção usuarios."
             );
         }
 
-        // Login autorizado
-        window.location.href = "admin.html";
-
     } catch (erro) {
 
-        console.error(
-            "Erro no login:",
-            erro
-        );
+        console.error("ERRO COMPLETO:", erro);
 
-        mensagem.textContent =
-            "E-mail, senha ou permissão de administrador inválidos.";
+        mensagem.textContent = erro.message;
 
         botao.disabled = false;
         botao.textContent = "Entrar";
     }
-
 });
