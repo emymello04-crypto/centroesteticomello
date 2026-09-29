@@ -36,6 +36,7 @@ form.addEventListener("submit", async (event) => {
         );
 
         console.log("LOGIN AUTH OK:", resultado.user.email);
+        console.log("VERSÃO NOVA DO ADMIN-LOGIN.JS");
 
         // 2. Busca TODOS os usuários do Firestore
         const usuariosRef = collection(db, "usuarios");
