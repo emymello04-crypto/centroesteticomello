@@ -10,41 +10,51 @@ import {
     getDocs
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
+
 const form = document.getElementById("loginForm");
 const emailInput = document.getElementById("email");
 const senhaInput = document.getElementById("senha");
 const mensagem = document.getElementById("mensagem");
 const botao = document.getElementById("btnLogin");
 
+
 form.addEventListener("submit", async (event) => {
+
     event.preventDefault();
 
     const email = emailInput.value.trim();
     const senha = senhaInput.value;
 
+    mensagem.textContent = "";
+
     botao.disabled = true;
     botao.textContent = "Entrando...";
-    mensagem.textContent = "";
 
     try {
 
-        // 1. Verifica o login no Authentication
+        // LOGIN NO FIREBASE AUTHENTICATION
         const resultado = await signInWithEmailAndPassword(
             auth,
             email,
             senha
         );
 
-        console.log("LOGIN AUTH OK:", resultado.user.email);
-        console.log("VERSÃO NOVA DO ADMIN-LOGIN.JS");
+        console.log("Login realizado:", resultado.user.email);
 
-        // 2. Busca TODOS os usuários do Firestore
+
+        // BUSCA OS USUÁRIOS NO FIRESTORE
         const usuariosRef = collection(db, "usuarios");
+
         const snapshot = await getDocs(usuariosRef);
 
-        console.log("Quantidade de documentos:", snapshot.size);
+        console.log(
+            "Usuários encontrados no Firestore:",
+            snapshot.size
+        );
 
-        let encontrado = false;
+
+        let administradorEncontrado = false;
+
 
         snapshot.forEach((documento) => {
 
@@ -56,52 +66,57 @@ form.addEventListener("submit", async (event) => {
                 dados
             );
 
-            // Compara o e-mail sem diferenciar maiúsculas/minúsculas
-            if (
+
+            // CONFERE O EMAIL
+            const mesmoEmail =
                 dados.email &&
                 dados.email.trim().toLowerCase() ===
-                resultado.user.email.trim().toLowerCase()
-            ) {
+                resultado.user.email.trim().toLowerCase();
 
-                encontrado = true;
 
-                console.log(
-                    "USUÁRIO ENCONTRADO:",
-                    dados
-                );
+            // CONFERE SE É ADMIN
+            const ehAdmin =
+                dados.perfil &&
+                dados.perfil.toLowerCase() === "admin";
 
-                if (
-                    dados.perfil === "Administrador" &&
-                    dados.status === "Ativo"
-                ) {
 
-                    window.location.href = "admin.html";
+            if (mesmoEmail && ehAdmin) {
 
-                } else {
+                administradorEncontrado = true;
 
-                    throw new Error(
-                        "O usuário existe, mas não é um administrador ativo."
-                    );
-                }
             }
+
         });
 
-        if (!encontrado) {
+
+        // SE NÃO FOR ADMIN
+        if (!administradorEncontrado) {
 
             await signOut(auth);
 
             throw new Error(
-                "O login funcionou, mas nenhum documento com esse e-mail foi encontrado na coleção usuarios."
+                "Este usuário não possui perfil de administrador."
             );
         }
 
+
+        // LOGIN AUTORIZADO
+        console.log("Administrador autorizado!");
+
+        window.location.href = "admin.html";
+
+
     } catch (erro) {
 
-        console.error("ERRO COMPLETO:", erro);
+        console.error(
+            "ERRO COMPLETO:",
+            erro
+        );
 
         mensagem.textContent = erro.message;
 
         botao.disabled = false;
         botao.textContent = "Entrar";
     }
+
 });
