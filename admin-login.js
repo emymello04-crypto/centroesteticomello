@@ -102,6 +102,7 @@ form.addEventListener("submit", async (event) => {
 
         // LOGIN AUTORIZADO
         console.log("Administrador autorizado!");
+        console.log("ADMIN LOGIN NOVO - VERSÃO 3");
 
         window.location.href = "admin.html";
 
