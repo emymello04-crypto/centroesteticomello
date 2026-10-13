@@ -6,7 +6,12 @@ import { initializeApp } from
 import { getAuth } from
     "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 
-import { getFirestore } from
+import {
+    collection,
+    getDocs,
+    doc,
+    getDoc
+} from
     "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
 const firebaseConfig = {

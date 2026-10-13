@@ -41,6 +41,40 @@ form.addEventListener("submit", async (event) => {
 
         console.log("Login realizado:", resultado.user.email);
 
+        console.log("Projeto:", db.app.options.projectId);
+        console.log("UID:", resultado.user.uid);
+        console.log("Banco: (default)");
+
+        try {
+    // Teste 1: procurar documento com o UID autenticado
+    const refPorUID = doc(db, "usuarios", resultado.user.uid);
+    const resultadoUID = await getDoc(refPorUID);
+
+    console.log(
+        "Documento encontrado pelo UID:",
+        resultadoUID.exists()
+    );
+
+    if (resultadoUID.exists()) {
+        console.log("Dados pelo UID:", resultadoUID.data());
+    }
+
+    // Teste 2: consultar a coleção
+    const usuariosRef = collection(db, "usuarios");
+    const snapshot = await getDocs(usuariosRef);
+
+    console.log("Quantidade na coleção usuarios:", snapshot.size);
+
+} catch (erroFirestore) {
+    console.error("Falha ao consultar Firestore:", {
+        code: erroFirestore.code,
+        message: erroFirestore.message
+    });
+
+    throw erroFirestore;
+}
+
+
         console.log("UID autenticado:", resultado.user.uid);
         console.log("E-mail autenticado:", resultado.user.email);
 
