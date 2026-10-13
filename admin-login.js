@@ -1,3 +1,4 @@
+
 import { auth, db } from "./firebase-config.js";
 
 import {
@@ -8,8 +9,8 @@ import {
 import {
     collection,
     getDocs,
-    doc,
-    getDoc
+    query,
+    where
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 
 const form = document.getElementById("loginForm");
@@ -41,41 +42,38 @@ form.addEventListener("submit", async (event) => {
         usuarioAutenticado = true;
 
         const usuario = resultado.user;
-        const emailAutenticado = usuario.email?.trim().toLowerCase();
+        const emailAutenticado = usuario.email
+            ?.trim()
+            .toLowerCase();
 
         console.log("Login realizado:", emailAutenticado);
         console.log("Projeto Firebase:", db.app.options.projectId);
         console.log("UID autenticado:", usuario.uid);
 
+        // 2. Verificar se o e-mail corresponde a um documento
+        // da coleção usuarios no Firestore
+        const usuariosRef = collection(db, "usuarios");
 
-        try {
-    const referencia = collection(db, "usuarios");
-    const consulta = await getDocs(referencia);
+        const consultaAdmin = query(
+            usuariosRef,
+            where("email", "==", emailAutenticado)
+        );
 
-    console.log("Coleção usuarios:", consulta.size);
+        const snapshotAdmin = await getDocs(consultaAdmin);
 
-    consulta.forEach((item) => {
-        console.log("ID:", item.id);
-        console.log("Dados:", item.data());
-    });
-} catch (erro) {
-    console.error(
-        "Erro Firestore:",
-        erro.code,
-        erro.message
-    );
-}
-
-        // 2. Consultar o documento cujo ID corresponde ao UID
-        const referenciaUID = doc(db, "usuarios", usuario.uid);
-        const documentoUID = await getDoc(referenciaUID);
+        console.log(
+            "Documentos encontrados pelo e-mail:",
+            snapshotAdmin.size
+        );
 
         let administradorEncontrado = false;
 
-        if (documentoUID.exists()) {
-            const dados = documentoUID.data();
+        snapshotAdmin.forEach((documento) => {
+            const dados = documento.data();
 
-            console.log("Perfil encontrado pelo UID:", dados.perfil);
+            console.log("ID do documento:", documento.id);
+            console.log("E-mail no Firestore:", dados.email);
+            console.log("Perfil encontrado:", dados.perfil);
 
             const mesmoEmail =
                 typeof dados.email === "string" &&
@@ -85,50 +83,19 @@ form.addEventListener("submit", async (event) => {
                 typeof dados.perfil === "string" &&
                 dados.perfil.trim().toLowerCase() === "admin";
 
-            administradorEncontrado = mesmoEmail && ehAdmin;
-        }
+            if (mesmoEmail && ehAdmin) {
+                administradorEncontrado = true;
+            }
+        });
 
-        // 3. Se o documento não estiver identificado pelo UID,
-        // procurar o usuário pelo e-mail na coleção.
+        // 3. Bloquear acesso se não for administrador
         if (!administradorEncontrado) {
-            const usuariosRef = collection(db, "usuarios");
-            const snapshot = await getDocs(usuariosRef);
-
-            console.log(
-                "Documentos encontrados na coleção usuarios:",
-                snapshot.size
-            );
-
-            snapshot.forEach((documento) => {
-                const dados = documento.data();
-
-                console.log("Documento consultado:", documento.id);
-
-                const mesmoEmail =
-                    typeof dados.email === "string" &&
-                    dados.email.trim().toLowerCase() === emailAutenticado;
-
-                const ehAdmin =
-                    typeof dados.perfil === "string" &&
-                    dados.perfil.trim().toLowerCase() === "admin";
-
-                if (mesmoEmail && ehAdmin) {
-                    administradorEncontrado = true;
-                }
-            });
-        }
-
-        // 4. Bloquear o acesso caso o perfil não seja administrativo
-        if (!administradorEncontrado) {
-            await signOut(auth);
-            usuarioAutenticado = false;
-
             throw new Error(
-                "Não foi encontrado um perfil de administrador correspondente a este usuário."
+                "O login foi realizado, mas o usuário não possui um perfil de administrador correspondente na coleção usuarios."
             );
         }
 
-        // 5. Acesso autorizado
+        // 4. Acesso autorizado
         console.log("Administrador autorizado!");
 
         window.location.href = "admin.html";
@@ -136,25 +103,34 @@ form.addEventListener("submit", async (event) => {
     } catch (erro) {
         console.error("Erro no login administrativo:", erro);
 
-        // Encerrar a sessão em caso de falha após autenticação,
-        // inclusive se houver erro na consulta ao Firestore.
+        // Encerrar a sessão se o login já tiver sido realizado,
+        // mas ocorrer uma falha na verificação do administrador.
         if (usuarioAutenticado) {
             try {
                 await signOut(auth);
             } catch (erroSaida) {
-                console.error("Erro ao encerrar sessão:", erroSaida);
+                console.error(
+                    "Erro ao encerrar sessão:",
+                    erroSaida
+                );
             }
         }
 
         if (erro.code === "permission-denied") {
             mensagem.textContent =
-                "Sem permissão para verificar o perfil. Verifique as regras do Firestore.";
+                "Sem permissão para consultar o perfil. Verifique as regras do Firestore.";
         } else if (
             erro.code === "unavailable" ||
             erro.code === "failed-precondition"
         ) {
             mensagem.textContent =
                 "Não foi possível consultar o banco de dados. Tente novamente.";
+        } else if (erro.code === "auth/invalid-credential") {
+            mensagem.textContent =
+                "E-mail ou senha incorretos.";
+        } else if (erro.code === "auth/too-many-requests") {
+            mensagem.textContent =
+                "Muitas tentativas de login. Aguarde e tente novamente.";
         } else {
             mensagem.textContent =
                 erro.message || "Não foi possível realizar o login.";
