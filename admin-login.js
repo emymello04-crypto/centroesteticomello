@@ -51,19 +51,19 @@ form.addEventListener("submit", async (event) => {
         console.log("Projeto Firebase:", db.app.options.projectId);
         console.log("UID autenticado:", usuario.uid);
 
-        // 2. Procurar o usuário pelo e-mail no Firestore
+        
+        // 2. Procurar o administrador na coleção usuarios
         const usuariosRef = collection(db, "usuarios");
-
-        const consultaAdmin = query(
-            usuariosRef,
-            where("email", "==", emailAutenticado)
-        );
-
-        const snapshotAdmin = await getDocs(consultaAdmin);
+        const snapshotAdmin = await getDocs(usuariosRef);
 
         console.log(
-            "Documentos encontrados pelo e-mail:",
+            "Total de documentos na coleção usuarios:",
             snapshotAdmin.size
+        );
+
+        console.log(
+            "E-mail autenticado:",
+            JSON.stringify(emailAutenticado)
         );
 
         let administradorEncontrado = false;
@@ -71,22 +71,28 @@ form.addEventListener("submit", async (event) => {
         snapshotAdmin.forEach((documento) => {
             const dados = documento.data();
 
+            const emailBanco =
+                typeof dados.email === "string"
+                    ? dados.email.trim().toLowerCase()
+                    : "";
+
+            const perfilBanco =
+                typeof dados.perfil === "string"
+                    ? dados.perfil.trim().toLowerCase()
+                    : "";
+
             console.log("ID do documento:", documento.id);
-            console.log("E-mail no Firestore:", dados.email);
-            console.log("Perfil encontrado:", dados.perfil);
+            console.log("E-mail no banco:", JSON.stringify(emailBanco));
+            console.log("Perfil:", perfilBanco);
 
-            const mesmoEmail =
-                typeof dados.email === "string" &&
-                dados.email.trim().toLowerCase() === emailAutenticado;
-
-            const ehAdmin =
-                typeof dados.perfil === "string" &&
-                dados.perfil.trim().toLowerCase() === "admin";
-
-            if (mesmoEmail && ehAdmin) {
+            if (
+                emailBanco === emailAutenticado &&
+                perfilBanco === "admin"
+            ) {
                 administradorEncontrado = true;
             }
         });
+
 
         // 3. Verificar autorização administrativa
         if (!administradorEncontrado) {
