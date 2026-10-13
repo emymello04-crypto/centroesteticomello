@@ -47,6 +47,25 @@ form.addEventListener("submit", async (event) => {
         console.log("Projeto Firebase:", db.app.options.projectId);
         console.log("UID autenticado:", usuario.uid);
 
+
+        try {
+    const referencia = collection(db, "usuarios");
+    const consulta = await getDocs(referencia);
+
+    console.log("Coleção usuarios:", consulta.size);
+
+    consulta.forEach((item) => {
+        console.log("ID:", item.id);
+        console.log("Dados:", item.data());
+    });
+} catch (erro) {
+    console.error(
+        "Erro Firestore:",
+        erro.code,
+        erro.message
+    );
+}
+
         // 2. Consultar o documento cujo ID corresponde ao UID
         const referenciaUID = doc(db, "usuarios", usuario.uid);
         const documentoUID = await getDoc(referenciaUID);
