@@ -7,9 +7,10 @@ import {
 
 import {
     collection,
-    getDocs
+    getDocs,
+    doc,
+    getDoc
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
-
 
 const form = document.getElementById("loginForm");
 const emailInput = document.getElementById("email");
@@ -17,148 +18,130 @@ const senhaInput = document.getElementById("senha");
 const mensagem = document.getElementById("mensagem");
 const botao = document.getElementById("btnLogin");
 
-
 form.addEventListener("submit", async (event) => {
-
     event.preventDefault();
 
-    const email = emailInput.value.trim();
+    const email = emailInput.value.trim().toLowerCase();
     const senha = senhaInput.value;
 
     mensagem.textContent = "";
-
     botao.disabled = true;
     botao.textContent = "Entrando...";
 
-    try {
+    let usuarioAutenticado = false;
 
-        // LOGIN NO FIREBASE AUTHENTICATION
+    try {
+        // 1. Autenticar no Firebase Authentication
         const resultado = await signInWithEmailAndPassword(
             auth,
             email,
             senha
         );
 
-        console.log("Login realizado:", resultado.user.email);
+        usuarioAutenticado = true;
 
-        console.log("Projeto:", db.app.options.projectId);
-        console.log("UID:", resultado.user.uid);
-        console.log("Banco: (default)");
+        const usuario = resultado.user;
+        const emailAutenticado = usuario.email?.trim().toLowerCase();
 
-        try {
-    // Teste 1: procurar documento com o UID autenticado
-    const refPorUID = doc(db, "usuarios", resultado.user.uid);
-    const resultadoUID = await getDoc(refPorUID);
-
-    console.log(
-        "Documento encontrado pelo UID:",
-        resultadoUID.exists()
-    );
-
-    if (resultadoUID.exists()) {
-        console.log("Dados pelo UID:", resultadoUID.data());
-    }
-
-    // Teste 2: consultar a coleção
-    const usuariosRef = collection(db, "usuarios");
-    const snapshot = await getDocs(usuariosRef);
-
-    console.log("Quantidade na coleção usuarios:", snapshot.size);
-
-} catch (erroFirestore) {
-    console.error("Falha ao consultar Firestore:", {
-        code: erroFirestore.code,
-        message: erroFirestore.message
-    });
-
-    throw erroFirestore;
-}
-
-
-        console.log("UID autenticado:", resultado.user.uid);
-        console.log("E-mail autenticado:", resultado.user.email);
-
-
-        // BUSCA OS USUÁRIOS NO FIRESTORE
-        const usuariosRef = collection(db, "usuarios");
-
-        const snapshot = await getDocs(usuariosRef);
-
+        console.log("Login realizado:", emailAutenticado);
         console.log("Projeto Firebase:", db.app.options.projectId);
-        console.log("Quantidade de usuários:", snapshot.size);
-        console.log("UID autenticado:", resultado.user.uid);
+        console.log("UID autenticado:", usuario.uid);
 
-        console.log(
-            "Usuários encontrados no Firestore:",
-            snapshot.size
-        );
-
+        // 2. Consultar o documento cujo ID corresponde ao UID
+        const referenciaUID = doc(db, "usuarios", usuario.uid);
+        const documentoUID = await getDoc(referenciaUID);
 
         let administradorEncontrado = false;
 
+        if (documentoUID.exists()) {
+            const dados = documentoUID.data();
 
-        snapshot.forEach((documento) => {
+            console.log("Perfil encontrado pelo UID:", dados.perfil);
 
-            const dados = documento.data();
+            const mesmoEmail =
+                typeof dados.email === "string" &&
+                dados.email.trim().toLowerCase() === emailAutenticado;
+
+            const ehAdmin =
+                typeof dados.perfil === "string" &&
+                dados.perfil.trim().toLowerCase() === "admin";
+
+            administradorEncontrado = mesmoEmail && ehAdmin;
+        }
+
+        // 3. Se o documento não estiver identificado pelo UID,
+        // procurar o usuário pelo e-mail na coleção.
+        if (!administradorEncontrado) {
+            const usuariosRef = collection(db, "usuarios");
+            const snapshot = await getDocs(usuariosRef);
 
             console.log(
-                "Documento:",
-                documento.id,
-                dados
+                "Documentos encontrados na coleção usuarios:",
+                snapshot.size
             );
 
+            snapshot.forEach((documento) => {
+                const dados = documento.data();
 
-            // CONFERE O EMAIL
-            const mesmoEmail =
-                dados.email &&
-                dados.email.trim().toLowerCase() ===
-                resultado.user.email.trim().toLowerCase();
+                console.log("Documento consultado:", documento.id);
 
+                const mesmoEmail =
+                    typeof dados.email === "string" &&
+                    dados.email.trim().toLowerCase() === emailAutenticado;
 
-            // CONFERE SE É ADMIN
-            const ehAdmin =
-                dados.perfil === "string" &&
-                dados.perfil.toLowerCase() === "admin";
+                const ehAdmin =
+                    typeof dados.perfil === "string" &&
+                    dados.perfil.trim().toLowerCase() === "admin";
 
+                if (mesmoEmail && ehAdmin) {
+                    administradorEncontrado = true;
+                }
+            });
+        }
 
-            if (mesmoEmail && ehAdmin) {
-
-                administradorEncontrado = true;
-
-            }
-
-        });
-
-
-        // SE NÃO FOR ADMIN
+        // 4. Bloquear o acesso caso o perfil não seja administrativo
         if (!administradorEncontrado) {
-
             await signOut(auth);
+            usuarioAutenticado = false;
 
             throw new Error(
-                "Este usuário não possui perfil de administrador."
+                "Não foi encontrado um perfil de administrador correspondente a este usuário."
             );
         }
 
-
-        // LOGIN AUTORIZADO
+        // 5. Acesso autorizado
         console.log("Administrador autorizado!");
-        console.log("ADMIN LOGIN NOVO - VERSÃO 3");
 
         window.location.href = "admin.html";
 
-
     } catch (erro) {
+        console.error("Erro no login administrativo:", erro);
 
-        console.error(
-            "ERRO COMPLETO:",
-            erro
-        );
+        // Encerrar a sessão em caso de falha após autenticação,
+        // inclusive se houver erro na consulta ao Firestore.
+        if (usuarioAutenticado) {
+            try {
+                await signOut(auth);
+            } catch (erroSaida) {
+                console.error("Erro ao encerrar sessão:", erroSaida);
+            }
+        }
 
-        mensagem.textContent = erro.message;
+        if (erro.code === "permission-denied") {
+            mensagem.textContent =
+                "Sem permissão para verificar o perfil. Verifique as regras do Firestore.";
+        } else if (
+            erro.code === "unavailable" ||
+            erro.code === "failed-precondition"
+        ) {
+            mensagem.textContent =
+                "Não foi possível consultar o banco de dados. Tente novamente.";
+        } else {
+            mensagem.textContent =
+                erro.message || "Não foi possível realizar o login.";
+        }
 
         botao.disabled = false;
         botao.textContent = "Entrar";
     }
-
 });
