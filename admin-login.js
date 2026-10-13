@@ -96,9 +96,13 @@ form.addEventListener("submit", async (event) => {
         }
 
         // 4. Acesso autorizado
-        console.log("Administrador autorizado!");
+       // 4. Acesso autorizado
+console.log("Administrador autorizado!");
+mensagem.textContent = "Login realizado! Abrindo painel administrativo...";
 
-        window.location.href = "admin.html";
+setTimeout(() => {
+    window.location.assign("./admin.html");
+}, 500);
 
     } catch (erro) {
         console.error("Erro no login administrativo:", erro);
