@@ -97,6 +97,9 @@ form.addEventListener("submit", async (event) => {
 
         // 4. Redirecionar para o painel administrativo
         console.log("Administrador autorizado!");
+        alert("TESTE: chegou à etapa de redirecionamento!");
+
+        window.location.href = "./admin.html";
 
         const destino = new URL(
             "./admin.html",
