@@ -50,6 +50,10 @@ form.addEventListener("submit", async (event) => {
 
         const snapshot = await getDocs(usuariosRef);
 
+        console.log("Projeto Firebase:", db.app.options.projectId);
+        console.log("Quantidade de usuários:", snapshot.size);
+        console.log("UID autenticado:", resultado.user.uid);
+
         console.log(
             "Usuários encontrados no Firestore:",
             snapshot.size
