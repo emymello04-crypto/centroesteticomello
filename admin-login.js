@@ -41,6 +41,9 @@ form.addEventListener("submit", async (event) => {
 
         console.log("Login realizado:", resultado.user.email);
 
+        console.log("UID autenticado:", resultado.user.uid);
+        console.log("E-mail autenticado:", resultado.user.email);
+
 
         // BUSCA OS USUÁRIOS NO FIRESTORE
         const usuariosRef = collection(db, "usuarios");
@@ -76,7 +79,7 @@ form.addEventListener("submit", async (event) => {
 
             // CONFERE SE É ADMIN
             const ehAdmin =
-                dados.perfil &&
+                dados.perfil === "string" &&
                 dados.perfil.toLowerCase() === "admin";
 
 
