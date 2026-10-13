@@ -20,6 +20,7 @@ const mensagem = document.getElementById("mensagem");
 const botao = document.getElementById("btnLogin");
 
 form.addEventListener("submit", async (event) => {
+    console.log("Formulário de login iniciado.");
     event.preventDefault();
 
     const email = emailInput.value.trim().toLowerCase();
@@ -50,8 +51,7 @@ form.addEventListener("submit", async (event) => {
         console.log("Projeto Firebase:", db.app.options.projectId);
         console.log("UID autenticado:", usuario.uid);
 
-        // 2. Verificar se o e-mail corresponde a um documento
-        // da coleção usuarios no Firestore
+        // 2. Procurar o usuário pelo e-mail no Firestore
         const usuariosRef = collection(db, "usuarios");
 
         const consultaAdmin = query(
@@ -88,27 +88,34 @@ form.addEventListener("submit", async (event) => {
             }
         });
 
-        // 3. Bloquear acesso se não for administrador
+        // 3. Verificar autorização administrativa
         if (!administradorEncontrado) {
             throw new Error(
-                "O login foi realizado, mas o usuário não possui um perfil de administrador correspondente na coleção usuarios."
+                "Login realizado, mas o perfil de administrador não foi encontrado para este e-mail."
             );
         }
 
-        // 4. Acesso autorizado
-       // 4. Acesso autorizado
-console.log("Administrador autorizado!");
-mensagem.textContent = "Login realizado! Abrindo painel administrativo...";
+        // 4. Redirecionar para o painel administrativo
+        console.log("Administrador autorizado!");
 
-setTimeout(() => {
-    window.location.assign("./admin.html");
-}, 500);
+        const destino = new URL(
+            "./admin.html",
+            window.location.href
+        );
+
+        console.log("Tentando abrir:", destino.href);
+
+        mensagem.style.color = "#247A43";
+        mensagem.textContent =
+            "Login autorizado! Abrindo painel...";
+
+        window.location.assign(destino.href);
 
     } catch (erro) {
         console.error("Erro no login administrativo:", erro);
 
-        // Encerrar a sessão se o login já tiver sido realizado,
-        // mas ocorrer uma falha na verificação do administrador.
+        // Encerrar a sessão se a autenticação já aconteceu,
+        // mas a autorização falhou.
         if (usuarioAutenticado) {
             try {
                 await signOut(auth);
@@ -129,15 +136,20 @@ setTimeout(() => {
         ) {
             mensagem.textContent =
                 "Não foi possível consultar o banco de dados. Tente novamente.";
-        } else if (erro.code === "auth/invalid-credential") {
+        } else if (
+            erro.code === "auth/invalid-credential"
+        ) {
             mensagem.textContent =
                 "E-mail ou senha incorretos.";
-        } else if (erro.code === "auth/too-many-requests") {
+        } else if (
+            erro.code === "auth/too-many-requests"
+        ) {
             mensagem.textContent =
                 "Muitas tentativas de login. Aguarde e tente novamente.";
         } else {
             mensagem.textContent =
-                erro.message || "Não foi possível realizar o login.";
+                erro.message ||
+                "Não foi possível realizar o login.";
         }
 
         botao.disabled = false;
