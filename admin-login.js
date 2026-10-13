@@ -56,6 +56,8 @@ form.addEventListener("submit", async (event) => {
         const usuariosRef = collection(db, "usuarios");
         const snapshotAdmin = await getDocs(usuariosRef);
 
+        console.log("Projeto Firebase:", db.app.options.projectId);
+
         console.log(
             "Total de documentos na coleção usuarios:",
             snapshotAdmin.size
